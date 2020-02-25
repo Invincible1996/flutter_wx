@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.NonNull;
 import com.example.flutter_wx.constant.WeChatPluginMethods
 import com.example.flutter_wx.handler.FlutterWxAuthHandler
+import com.example.flutter_wx.handler.FlutterWxResponseHandler
 import com.example.flutter_wx.handler.WXAPiHandler
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -36,17 +37,18 @@ open class FlutterWxPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_wx")
+        FlutterWxResponseHandler.setMethodChannel(channel)
         channel.setMethodCallHandler(this); //注意此处的修改
     }
 
     companion object {
         const val TAG = "FlutterWxPlugin"
-        @JvmStatic
-        fun registerWith(registrar: Registrar) {
-            val channel = MethodChannel(registrar.messenger(), "flutter_wx")
-
-            channel.setMethodCallHandler(FlutterWxPlugin())
-        }
+//        @JvmStatic
+//        fun registerWith(registrar: Registrar) {
+//            val channel = MethodChannel(registrar.messenger(), "flutter_wx")
+//
+//            channel.setMethodCallHandler(FlutterWxPlugin())
+//        }
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
