@@ -16,14 +16,10 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** FlutterWxPlugin */
-open class FlutterWxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+open class FlutterWxPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private lateinit var activity: Activity
     private lateinit var channel: MethodChannel;
-
-    companion object {
-        const val TAG = "FlutterWxPlugin"
-    }
 
     override fun onDetachedFromActivity() {
     }
@@ -43,13 +39,15 @@ open class FlutterWxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         channel.setMethodCallHandler(this); //注意此处的修改
     }
 
-//    companion object {
-//        @JvmStatic
-//        fun registerWith(registrar: Registrar) {
-//            val channel = MethodChannel(registrar.messenger(), "flutter_wx")
-//            channel.setMethodCallHandler(FlutterWxPlugin())
-//        }
-//    }
+    companion object {
+        const val TAG = "FlutterWxPlugin"
+        @JvmStatic
+        fun registerWith(registrar: Registrar) {
+            val channel = MethodChannel(registrar.messenger(), "flutter_wx")
+
+            channel.setMethodCallHandler(FlutterWxPlugin())
+        }
+    }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
 
